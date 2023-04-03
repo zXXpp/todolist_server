@@ -1,7 +1,11 @@
 const express = require('express')
+const cors = require('cors')
+
+
+
 const base = require('./routes/base.js')
 const app = express()
-
+app.use(cors())
 app.use(base)
 
 
