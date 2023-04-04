@@ -1,14 +1,22 @@
 const express = require('express')
+const db = require('./db/db')
+const mongoose = require('mongoose')
+
+
+
+//跨域
 const cors = require('cors')
-const login = require('./routes/login.js')
+
+//子路由
+const user = require('./routes/login.js')
+
+
 
 
 const app = express()
 app.use(cors())
-//测试接口
 app.use(require('./routes/test.js'))
-//登陆，注册
-app.use('/login', login)
+app.use('/user', user)
 
 
 
@@ -21,5 +29,12 @@ app.all('*', (req, res) => {
     })
 })
 app.listen(9000, () => {
+    db().then(() => {
+        console.log('首次连接成功');
+    }).finally(
+        mongoose.disconnect().then(() => {
+            console.log('首次断开成功');
+        })
+    )
     console.log('nodejs后端启动成功');
 })

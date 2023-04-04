@@ -1,19 +1,18 @@
 const express = require('express')
+
 const router = express.Router()
+const bodyParser = require('body-parser')
+//JSON
+const jsonParser = bodyParser.json()
+//qs
+const urlencodedParser = bodyParser.urlencoded()
 
-const login = require('../src/login/index.js')
+const user = require('../routes_handler/user')
 //注册
-router.get('/register', (...re) => {
-    login.register(...re)
-})
+router.post('/register', jsonParser, user.register)
 //登陆
-router.get('/login', (req, res) => {
-    login.login(req, res)
-})
-//注销
-router.get('/close', (req, res) => {
-    login.close(req, res)
-
-})
+router.post('/login', jsonParser, user.login)
+//更新
+router.post('/update', jsonParser, user.updateStatus)
 
 module.exports = router
