@@ -3,10 +3,34 @@ const mongoose = require('mongoose')
 
 //模型对象也可以拆分
 let UserSchema = new mongoose.Schema({
-    nickName: String,
-    id: String,
-    email: String,
-    sex: Number
+    nickName: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+        unique: true,
+        default: '123456'
+    }
+    ,
+    status: {
+        type: Number,
+        required: true,
+        enum: [0, 1],
+        default: 1
+    },
+    sex: {
+        type: Number,
+        required: true,
+        enum: [0, 1, 3],//0女，1男，3未知
+        default: '3'
+    },
 })
 
 //创建模型对象  :模型是用于操作这个数据的
