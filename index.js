@@ -1,26 +1,37 @@
 const express = require('express')
-const db = require('./db/db')
 const mongoose = require('mongoose')
-
-
-
-//跨域
 const cors = require('cors')
 
-//子路由
-const user = require('./routes/login.js')
+
+//数据库
+const db = require('./db/db')
 
 
-
-
+//app
 const app = express()
-app.use(cors())
+
+//官方中间件
+app.use(cors())//跨域
+app.use(express.json())//query参数解析
+app.use(express.urlencoded({ extended: true }))//body参数解析
+
+//自定义中间件
+app.use(require('./middleware/response')())
+
+
+
+//子路由注册
 app.use(require('./routes/test.js'))
-app.use('/user', user)
+app.use('/user', require('./routes/login.js'))
+
+
+//全局捕获的错误级别中间件
 
 
 
 
+
+//兜底
 app.all('*', (req, res) => {
     res.statusCode = 404
     res.json({
@@ -28,6 +39,7 @@ app.all('*', (req, res) => {
         msg: '暂无此接口，请联系作者：1492548812@qq.com'
     })
 })
+//启动监听器
 app.listen(9000, () => {
     db().then(() => {
         console.log('首次连接成功');

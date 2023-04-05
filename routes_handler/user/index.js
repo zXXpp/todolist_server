@@ -1,36 +1,49 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 const db = require('../../db/db')
 
 //导入用户模型
 const UserModel = require('../../model/UserModel')
 //结构
-const { res_con, res_error, db_error } = require('../../utils')
+const { res_con, res_error, db_error, db_disconnect } = require('../../utils')
 
 
 //注册用户
 exports.register = async (req, res) => {
     //响应
     try {
+        const userInfo = req.body
+        const { email, nickName, password } = userInfo
+        if (nickName === 'admin') {
+            return res.res_error('禁止注册超级管理员')
+        }
+        //合法性校验
+        if (!email.length || !password) {
+            return res.res_error('请输入正确的邮箱和密码')
+        }
         await db()
-        const { email, nickName, password } = req.body
+        //判断是否占用
         const data1 = await UserModel.find({ email })
-        if (data1.length) {
-            res.json(res_error('邮箱已被注册', { errorType: 'email' }))
-            return
+        if (data1.length > 0) {
+            return res.res_error('邮箱已注册', null, { errorType: 'email' })
         }
-        const data2 = await UserModel.find({ password })
-        if (data2.length) {
-            res.json(res_error('密码已被人使用', { errorType: 'password' }))
-            return
-        }
+        // const data2 = await UserModel.find({ password })
+        // if (data2.length > 0) {
+        //     return res.json(res_error('密码已被人使用', { errorType: 'password' }))
+        // }
+        //加密密码
+        userInfo.password = bcrypt.hashSync(password, 10)
+        //插入数据库
         await UserModel.create({
-            email, nickName, password, status: 1
+            email: userInfo.email,
+            password: userInfo.password,
+            status: 1
         })
-        res.json(res_con())
+        return res.res_con()
     } catch (error) {
-        res.json(res_error(error.toString(), '1000', null))
+        res.res_error(error)
     } finally {
-        mongoose.disconnect()
+        db_disconnect()
     }
 }
 //登录

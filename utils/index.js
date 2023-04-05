@@ -5,6 +5,8 @@
  * @param {*} msg 信息描述
  * @returns 
  */
+const mongoose = require('mongoose')
+
 exports.res_con = (data = null, code = '0000', msg = 'ok') => {
     return {
         code,
@@ -26,6 +28,14 @@ exports.res_error = (msg = '服务器错误', data = null, code = '1000') => {
         code,
         data,
         msg
+    }
+}
+exports.db_disconnect = async () => {
+    try {
+        await mongoose.disconnect()
+        console.log('断开成功');
+    } catch (error) {
+        console.log('断开失败');
     }
 }
 

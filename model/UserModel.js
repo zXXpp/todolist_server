@@ -25,6 +25,12 @@ let UserSchema = new mongoose.Schema({
         enum: [0, 1],
         default: 1
     },
+    phoneNumber: {
+        type: String,
+    }, 
+    wxid: {
+        type: String,
+    },
     sex: {
         type: Number,
         required: true,
