@@ -7,12 +7,12 @@ const user = require('../routes_handler/user')
 
 
 //joi
-const { reg_login_schema } = require('../schema/user_schema')
+const user_schema = require('../schema/user_schema')
 
 //注册
-router.post('/register', expressJoi(reg_login_schema), user.register)
+router.post('/register', expressJoi(user_schema.reg_schema), user.register)
 //登陆
-router.post('/login', user.login)
+router.post('/login', expressJoi(user_schema.login_schema), user.login)
 //更新
 router.post('/update', user.updateStatus)
 

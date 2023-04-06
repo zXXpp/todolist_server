@@ -1,3 +1,7 @@
+const mongoose = require('mongoose')
+
+
+
 module.exports = () => {
     return (req, res, next) => {
         /**
@@ -25,6 +29,14 @@ module.exports = () => {
                 data,
                 msg: msg instanceof Error ? msg.message : msg
             })
+        }
+        res.db_disconnect = async () => {
+            try {
+                await mongoose.disconnect()
+                console.log('断开成功');
+            } catch (error) {
+                console.log('断开失败');
+            }
         }
         next()
     }

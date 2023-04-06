@@ -1,11 +1,29 @@
 //导入joi
 const Joi = require('joi');
 
-exports.reg_login_schema = {
+//用户邮箱
+const email = Joi.string().email().min(1).max(100).required()
+//用户昵称
+const nickName = Joi.string().required()
+//用户密码
+const password = Joi.string().min(6).max(20).required()
+
+
+
+
+
+exports.reg_schema = {
   body: {
-    email: Joi.string().min(1).max(100).required(),
-    nickName: Joi.string().required(),
-    password: Joi.string().min(6).max(20).required(),
+    email,
+    nickName,
+    password
+  }
+}
+
+exports.login_schema = {
+  body: {
+    email,
+    password
   }
 }
 

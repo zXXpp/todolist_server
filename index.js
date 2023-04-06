@@ -1,6 +1,11 @@
+const { jwtConfig: { jwtSecretKey } } = require('./config/config')
+
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const { expressjwt } = require('express-jwt')
+const joi = require('joi')
+
 
 
 //数据库
@@ -20,8 +25,12 @@ app.use(require('./middleware/response')())
 
 
 
+app.use(expressjwt({ secret: jwtSecretKey, algorithms: ["HS256"] }).unless({ path: [/^\/user/] }))
+
+
+
 //子路由注册
-app.use(require('./routes/test.js'))
+app.use('/test', require('./routes/test.js'))
 app.use('/user', require('./routes/login.js'))
 
 
@@ -40,7 +49,8 @@ app.all('*', (req, res) => {
 })
 //全局捕获的错误级别中间件
 app.use((err, req, res, next) => {
-    res.res_error(err)
+    if (err instanceof joi.ValidationError) return res.res_error(err)
+    if (err.name === 'UnauthorizedError') return res.res_error('身份认证失败', '401')
 })
 //启动监听器
 app.listen(9000, () => {

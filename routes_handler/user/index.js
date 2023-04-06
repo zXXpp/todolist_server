@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const db = require('../../db/db')
+const jwt = require('jsonwebtoken')
 
 //导入用户模型
 const UserModel = require('../../model/UserModel')
-//结构
-const { res_con, res_error, db_error, db_disconnect } = require('../../utils')
+//jwt加密字符串
+const { jwtConfig: { jwtSecretKey, jwtExpiresIn } } = require('../../config/config')
 
 
 //注册用户
@@ -37,19 +38,37 @@ exports.register = async (req, res) => {
         await UserModel.create({
             email: userInfo.email,
             password: userInfo.password,
+            nickName: userInfo.nickName,
             status: 1
         })
         return res.res_con()
     } catch (error) {
         res.res_error(error)
     } finally {
-        db_disconnect()
+        res.db_disconnect()
     }
 }
 //登录
-exports.login = (req, res) => {
-    console.log(req);
-    res.json(db_error())
+exports.login = async (req, res) => {
+    try {
+        let userInfo = req.body
+        await db()
+        const results = await UserModel.find({ email: userInfo.email })
+        if (results.length !== 1) return res.res_error('未注册账号')
+        if (!bcrypt.compareSync(userInfo.password, results[0].password)) return res.res_error('密码错误')
+
+        //剔除部分属性
+        const user = { ...results[0], password: '', pic: '' }
+
+        //生产token
+        const token = `Bearer ${jwt.sign(user, jwtSecretKey, { expiresIn: jwtExpiresIn })}`
+        res.res_con({ token })
+    } catch (error) {
+        res.res_error(error)
+    } finally {
+        res.db_disconnect()
+
+    }
 }
 // 更新数据
 exports.updateStatus = (req, res) => {

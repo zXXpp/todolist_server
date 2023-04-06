@@ -27,7 +27,7 @@ let UserSchema = new mongoose.Schema({
     },
     phoneNumber: {
         type: String,
-    }, 
+    },
     wxid: {
         type: String,
     },
@@ -37,6 +37,7 @@ let UserSchema = new mongoose.Schema({
         enum: [0, 1, 3],//0女，1男，3未知
         default: '3'
     },
+    pic: String
 })
 
 //创建模型对象  :模型是用于操作这个数据的
