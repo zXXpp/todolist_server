@@ -1,13 +1,11 @@
 //导入joi
-const joi = require('joi')
-
-const email = joi.string().max(100).required()
-const password = joi.string().min(6).max(20).required()
+const Joi = require('joi');
 
 exports.reg_login_schema = {
   body: {
-    email,
-    password
+    email: Joi.string().min(1).max(100).required(),
+    nickName: Joi.string().required(),
+    password: Joi.string().min(6).max(20).required(),
   }
 }
 

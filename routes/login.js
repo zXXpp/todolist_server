@@ -1,5 +1,6 @@
 const express = require('express')
-const expressJoi = require('express-joi')
+const expressJoi = require('@escook/express-joi')
+
 const router = express.Router()
 //处理函数引入
 const user = require('../routes_handler/user')
@@ -9,7 +10,7 @@ const user = require('../routes_handler/user')
 const { reg_login_schema } = require('../schema/user_schema')
 
 //注册
-router.post('/register', expressJoi.joiValidate(reg_login_schema), user.register)
+router.post('/register', expressJoi(reg_login_schema), user.register)
 //登陆
 router.post('/login', user.login)
 //更新

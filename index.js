@@ -25,7 +25,6 @@ app.use(require('./routes/test.js'))
 app.use('/user', require('./routes/login.js'))
 
 
-//全局捕获的错误级别中间件
 
 
 
@@ -38,6 +37,10 @@ app.all('*', (req, res) => {
         code: '404',
         msg: '暂无此接口，请联系作者：1492548812@qq.com'
     })
+})
+//全局捕获的错误级别中间件
+app.use((err, req, res, next) => {
+    res.res_error(err)
 })
 //启动监听器
 app.listen(9000, () => {
