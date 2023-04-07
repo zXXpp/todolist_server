@@ -13,8 +13,6 @@ const user_schema = require('../schema/user_schema')
 router.post('/register', expressJoi(user_schema.reg_schema), user.register)
 //登陆
 router.post('/login', expressJoi(user_schema.login_schema), user.login)
-//更新
-router.post('/update', user.updateStatus)
 
 //暴露
 module.exports = router

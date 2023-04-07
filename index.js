@@ -30,8 +30,10 @@ app.use(expressjwt({ secret: jwtSecretKey, algorithms: [jwtAlgorithm] }).unless(
 
 
 //子路由注册
-app.use('/test', require('./routes/test.js'))
-app.use('/user', require('./routes/login.js'))
+app.use('/test', require('./routes/test'))
+app.use('/user', require('./routes/login'))
+app.use('/info', require('./routes/info.js'))
+
 
 
 

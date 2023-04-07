@@ -7,7 +7,7 @@ const email = Joi.string().email().min(1).max(100).required()
 const nickName = Joi.string().required()
 //用户密码
 const password = Joi.string().min(6).max(20).required()
-
+//
 
 
 
@@ -24,5 +24,9 @@ exports.login_schema = {
     email,
     password
   }
+}
+
+exports.update = {
+
 }
 
