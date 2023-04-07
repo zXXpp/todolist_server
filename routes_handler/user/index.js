@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 //导入用户模型
 const UserModel = require('../../model/UserModel')
 //jwt加密字符串
-const { jwtConfig: { jwtSecretKey, jwtExpiresIn } } = require('../../config/config')
+const { jwtConfig: { jwtSecretKey, jwtExpiresIn, jwtAlgorithm } } = require('../../config/config')
 
 
 //注册用户
@@ -33,7 +33,7 @@ exports.register = async (req, res) => {
         //     return res.json(res_error('密码已被人使用', { errorType: 'password' }))
         // }
         //加密密码
-        userInfo.password = bcrypt.hashSync(password, 10)
+        userInfo.password = bcrypt.hashSync(password, 10, { algorithm: 'HS256' })
         //插入数据库
         await UserModel.create({
             email: userInfo.email,
@@ -61,13 +61,12 @@ exports.login = async (req, res) => {
         const user = { ...results[0], password: '', pic: '' }
 
         //生产token
-        const token = `Bearer ${jwt.sign(user, jwtSecretKey, { expiresIn: jwtExpiresIn })}`
+        const token = `Bearer ${jwt.sign(user, jwtSecretKey, { expiresIn: jwtExpiresIn, algorithm: jwtAlgorithm })}`
         res.res_con({ token })
     } catch (error) {
         res.res_error(error)
     } finally {
         res.db_disconnect()
-
     }
 }
 // 更新数据

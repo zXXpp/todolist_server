@@ -11,7 +11,6 @@ const password = Joi.string().min(6).max(20).required()
 
 
 
-
 exports.reg_schema = {
   body: {
     email,

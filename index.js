@@ -1,4 +1,4 @@
-const { jwtConfig: { jwtSecretKey } } = require('./config/config')
+const { jwtConfig: { jwtSecretKey, jwtAlgorithm } } = require('./config/config')
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -25,7 +25,7 @@ app.use(require('./middleware/response')())
 
 
 
-app.use(expressjwt({ secret: jwtSecretKey, algorithms: ["HS256"] }).unless({ path: [/^\/user/] }))
+app.use(expressjwt({ secret: jwtSecretKey, algorithms: [jwtAlgorithm] }).unless({ path: [/^\/user/] }))
 
 
 

@@ -6,8 +6,7 @@ const mongoose = require('mongoose')
  * @param {*} msg 
  * @returns 
  */
-
-exports.db_disconnect = async () => {
+const db_disconnect = async () => {
     try {
         await mongoose.disconnect()
         console.log('断开成功');
@@ -15,6 +14,7 @@ exports.db_disconnect = async () => {
         console.log('断开失败');
     }
 }
+exports.db_disconnect
 
 
 

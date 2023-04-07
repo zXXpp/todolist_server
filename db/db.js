@@ -11,7 +11,7 @@ module.exports = function () {
      */
     //连接服务 mongodb协议  数据库名称
     //导入配置文件
-    const { DBHOST, DBPORT, DBNAME } = require('../config/config')
+    const { dbConfig: { DBHOST, DBPORT, DBNAME } } = require('../config/config')
     return mongoose.connect(`mongodb://${DBHOST}:${DBPORT}/${DBNAME}`).then(() => {
         console.log('默认输出数据库连接成功');
         return Promise.resolve()
