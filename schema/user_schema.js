@@ -7,8 +7,12 @@ const email = Joi.string().email().min(1).max(100).required()
 const nickName = Joi.string().required()
 //用户密码
 const password = Joi.string().min(6).max(20).required()
-//
-
+//手机号
+const phoneNumber = Joi.string().length(11)
+//头像字符串
+const picUrl = Joi.string()
+//性别
+const sex = Joi.number().valid(0, 1, 3)
 
 
 exports.reg_schema = {
@@ -27,6 +31,11 @@ exports.login_schema = {
 }
 
 exports.update = {
-
+  email,
+  nickName,
+  password,
+  phoneNumber,
+  picUrl,
+  sex
 }
 

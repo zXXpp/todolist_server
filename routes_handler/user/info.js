@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 const UserModel = require('../../model/UserModel')
 
 
-//注册用户
+//获取用户信息
 exports.getInfo = async (req, res) => {
     //响应
     try {
@@ -15,9 +15,9 @@ exports.getInfo = async (req, res) => {
         await db()
         const results = await UserModel.findById(req.auth._id)
         const {
-            nickName, email, sex
+            nickName, email, sex, pic, phoneNumber
         } = results
-        res.res_con({ nickName, email, sex })
+        res.res_con({ nickName, email, sex, picUrl: pic, phoneNumber })
     } catch (error) {
         res.res_error(error)
     } finally {
@@ -29,8 +29,8 @@ exports.getInfo = async (req, res) => {
 exports.updateInfo = async (req, res) => {
     try {
         await db()
-        const result = UserModel.findById(req.auth._id)
-        console.log(result);
+        const results = await UserModel.findByIdAndUpdate(req.auth._id,{...req.body})
+        res.res_con()
     } catch (error) {
         res.res_error(error)
     } finally {
