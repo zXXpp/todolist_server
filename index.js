@@ -1,15 +1,13 @@
 const { jwtConfig: { jwtSecretKey, jwtAlgorithm } } = require('./config/config')
 
 const express = require('express')
-const mongoose = require('mongoose')
 const cors = require('cors')
 const { expressjwt } = require('express-jwt')
 const joi = require('joi')
 
 
 
-//数据库
-const db = require('./db/db')
+
 
 
 //app
@@ -56,12 +54,5 @@ app.use((err, req, res, next) => {
 })
 //启动监听器
 app.listen(9000, () => {
-    db().then(() => {
-        console.log('首次连接成功');
-    }).finally(
-        mongoose.disconnect().then(() => {
-            console.log('首次断开成功');
-        })
-    )
     console.log('nodejs后端启动成功');
 })

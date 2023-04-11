@@ -1,6 +1,4 @@
-const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
-const db = require('../../db/db')
 const jwt = require('jsonwebtoken')
 
 //导入用户模型
@@ -22,7 +20,6 @@ exports.register = async (req, res) => {
         if (!email.length || !password) {
             return res.res_error('请输入正确的邮箱和密码')
         }
-        await db()
         //判断是否占用
         const data1 = await UserModel.find({ email })
         if (data1.length > 0) {
@@ -45,19 +42,17 @@ exports.register = async (req, res) => {
     } catch (error) {
         res.res_error(error)
     } finally {
-        res.db_disconnect()
     }
 }
 //登录
 exports.login = async (req, res) => {
     try {
         let userInfo = req.body
-        await db()
-        const results = await UserModel.find({ email: userInfo.email })
-        if (results.length !== 1) return res.res_error('未注册账号')
-        if (!bcrypt.compareSync(userInfo.password, results[0].password)) return res.res_error('密码错误')
+        const result = await UserModel.findOne({ email: userInfo.email })
+        if (!result) return res.res_error('未注册账号')
+        if (!bcrypt.compareSync(userInfo.password, result.password)) return res.res_error('密码错误')
         //剔除部分属性
-        const { nickName, email, pic, _id } = results[0]
+        const { nickName, email, pic, _id } = result
         const user = { nickName, email, pic, _id }
         //生产token
         const token = `Bearer ${jwt.sign(user, jwtSecretKey, { expiresIn: jwtExpiresIn, algorithm: jwtAlgorithm })}`
@@ -65,7 +60,6 @@ exports.login = async (req, res) => {
     } catch (error) {
         res.res_error(error)
     } finally {
-        res.db_disconnect()
     }
 }
 // 更新数据
