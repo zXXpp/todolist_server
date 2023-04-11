@@ -49,16 +49,16 @@ let UserSchema = new mongoose.Schema({
         default: '3'
     },
     pic: {
-        type:String,
+        type: String,
         trim: true
     },
     createTime: {
         type: Date,
         required: true,
-        default: new Date()
+        default: Date.now,
     },
-    updateTime:{
-        type:Date,
+    updateTime: {
+        type: Date,
     }
 })
 

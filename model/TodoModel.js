@@ -1,3 +1,4 @@
+const { object } = require('joi')
 const mongoose = require('../db/db')
 
 //模型对象也可以拆分
@@ -15,7 +16,7 @@ let TodoSchema = new mongoose.Schema({
     },
     createTime: {
         type: Date,
-        default: new Date(),
+        default: Date.now,
         require: true,
     },
     updateTime: {

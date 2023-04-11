@@ -7,7 +7,12 @@ const UserModel = require('../../model/UserModel')
 const { jwtConfig: { jwtSecretKey, jwtExpiresIn, jwtAlgorithm } } = require('../../config/config')
 
 
-//注册用户
+/**
+ * 注册用户
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.register = async (req, res) => {
     //响应
     try {
@@ -44,7 +49,12 @@ exports.register = async (req, res) => {
     } finally {
     }
 }
-//登录
+/**
+ * 登录用户
+ * @param {*} req 
+ * @param {*} res 
+ * @returns 
+ */
 exports.login = async (req, res) => {
     try {
         let userInfo = req.body
@@ -61,8 +71,4 @@ exports.login = async (req, res) => {
         res.res_error(error)
     } finally {
     }
-}
-// 更新数据
-exports.updateStatus = (req, res) => {
-
 }

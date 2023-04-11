@@ -30,11 +30,14 @@ exports.login_schema = {
   }
 }
 
-exports.update = {
-  email,
-  nickName,
-  phoneNumber,
-  picUrl,
-  sex
+exports.update_schema = {
+  body: {
+    email,
+    nickName,
+    phoneNumber,
+    picUrl,
+    sex
+  }
+
 }
 

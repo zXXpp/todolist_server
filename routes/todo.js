@@ -6,9 +6,9 @@ const router = express.Router()
 const todo = require('../routes_handler/todo/index')
 
 //joi
+const todo_schema = require('../schema/todo_schema')
 
-//新建todo
-router.get('/createTodo', )
+router.post('/createTodo', expressJoi(todo_schema.create_schema), todo.create)
 
 //暴露
 module.exports = router
