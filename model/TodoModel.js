@@ -2,43 +2,70 @@ const mongoose = require('../db/db')
 
 //模型对象也可以拆分
 let TodoSchema = new mongoose.Schema({
-    nickName: {
+    //所属用户的关联id
+    uid: {
         type: String,
         required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true,
-        unique: true,
-        default: '123456'
     },
     status: {
         type: Number,
         required: true,
-        enum: [0, 1],
+        enum: [0, 1, 2],//1是未完成,0是删除,2是已完成
         default: 1
     },
-    phoneNumber: {
+    createTime: {
+        type: Date,
+        default: new Date(),
+        require: true,
+    },
+    updateTime: {
+        type: Date,
+    },
+    content: {
         type: String,
+        minLength: 1,
+        maxLength: 500,
+        require: true
     },
-    wxid: {
+    remind: {
+        objectTime: {
+            type: Date,
+            require: true
+        },
+        objectType: {
+            type: String
+        },
+        //闹钟
+        alarmClock: {
+            type: Date,
+        },
+        //重复提醒
+        reAlarmClock: {
+            reType: {
+                type: String,
+                enum: ['day', 'week', 'month', 'year', 'workDay', 'custom']
+            },
+            customType: {
+                type: String,
+                enum: ['day', 'week', 'month', 'year']
+            },
+            customCount: {
+                type: Number,
+                min: 1,
+                max: 999
+            }
+        }
+    },
+    remark: {
         type: String,
+        trim: true
     },
-    sex: {
-        type: Number,
-        required: true,
-        enum: [0, 1, 3],//0女，1男，3未知
-        default: '3'
-    },
-    pic: String,
+    attachment: {
+        type: Array,
+    }
 
 })
 
 //创建模型对象  :模型是用于操作这个数据的
-let TodoModel = mongoose.model('todos', TodoSchema,'todos')
+let TodoModel = mongoose.model('todos', TodoSchema, 'todos')
 module.exports = TodoModel

@@ -1,6 +1,3 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-
 //导入用户模型
 const UserModel = require('../../model/UserModel')
 

@@ -33,7 +33,6 @@ exports.login_schema = {
 exports.update = {
   email,
   nickName,
-  password,
   phoneNumber,
   picUrl,
   sex
