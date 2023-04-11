@@ -17,7 +17,7 @@ let TodoSchema = new mongoose.Schema({
     createTime: {
         type: Date,
         default: Date.now,
-        require: true,
+        required: true,
     },
     updateTime: {
         type: Date,
@@ -26,12 +26,12 @@ let TodoSchema = new mongoose.Schema({
         type: String,
         minLength: 1,
         maxLength: 500,
-        require: true
+        required: true
     },
     remind: {
         objectTime: {
             type: Date,
-            require: true
+            required: true
         },
         objectType: {
             type: String
