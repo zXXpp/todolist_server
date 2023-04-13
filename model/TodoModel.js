@@ -4,7 +4,7 @@ const mongoose = require('../db/db')
 //模型对象也可以拆分
 let TodoSchema = new mongoose.Schema({
     //所属用户的关联id
-    uid: {
+    userId: {
         type: String,
         required: true,
     },
