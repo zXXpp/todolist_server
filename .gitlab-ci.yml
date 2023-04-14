@@ -1,0 +1,31 @@
+image: node:alpine
+
+stages:
+  - install
+  - deploy
+
+cache:
+  key: todo-sever-cache
+  paths: 
+    - node_modules
+
+
+job_install:
+  stage: install
+  tags:
+    - testcicd
+  script:
+    - npm config set registry https://registry.npm.taobao.org
+    - npm install
+
+
+job_deploy:
+  stage: deploy
+  image: docker
+  tags:
+    - testcicd
+  script:
+    - docker build -t todolist-sever .
+    - if [ $(docker ps -aq --filter name=todolist-nodejs) ]; then docker rm -f todolist-nodejs;fi
+    - docker run -d -p 2004:9000 --name todolist-nodejs todolist-sever
+
