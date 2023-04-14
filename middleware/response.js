@@ -23,11 +23,12 @@ module.exports = () => {
          * @param {*} code '0000'
          * @param {*} msg ''
          */
-        res.res_con = (data = null, code = '0000', msg = 'ok') => {
+        res.res_con = (data = null, utils, code = '0000', msg = 'ok',) => {
             res.json({
                 code,
                 data,
-                msg: msg instanceof Error ? msg.message : msg
+                msg: msg instanceof Error ? msg.message : msg,
+                ...utils
             })
         }
         next()
