@@ -18,6 +18,7 @@ let TodoSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
         required: true,
+        index: true
     },
     updateTime: {
         type: Date,
@@ -31,7 +32,6 @@ let TodoSchema = new mongoose.Schema({
     remind: {
         objectTime: {
             type: Date,
-            required: true
         },
         objectType: {
             type: String
