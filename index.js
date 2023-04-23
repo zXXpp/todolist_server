@@ -10,8 +10,41 @@ const joi = require('joi')
 
 
 
+
+
+
+
 //app
 const app = express()
+const expressSwagger = require('express-swagger-generator')(app)
+let options = {
+    swaggerDefinition: {
+        info: {
+            description: 'This is a sample server',
+            title: 'Swagger',
+            version: '1.0.0',
+        },
+        host: 'localhost:3000',
+        basePath: '/',
+        produces: [
+            "application/json",
+        ],
+        schemes: ['http', 'https'],
+        securityDefinitions: {
+            JWT: {
+                type: 'apiKey',
+                in: 'header',
+                name: 'Authorization',
+                description: "",
+            }
+        }
+    },
+    basedir: __dirname, //app absolute path
+    files: ['./routes/**/*.js'] //Path to the API handle folder
+};
+expressSwagger(options)
+
+
 
 //官方中间件
 app.use(cors())//跨域
@@ -20,6 +53,7 @@ app.use(express.urlencoded({ extended: true }))//body参数解析
 
 //自定义中间件
 app.use(require('./middleware/response')())
+
 
 
 
