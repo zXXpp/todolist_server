@@ -1,7 +1,7 @@
 image: node:alpine
 
 stages:
-  - install
+  # - install
   - deploy
 
 cache:
@@ -10,13 +10,13 @@ cache:
     - node_modules
 
 
-job_install:
-  stage: install
-  tags:
-    - testcicd
-  script:
-    - npm config set registry https://registry.npm.taobao.org
-    - npm install
+# job_install:
+#   stage: install
+#   tags:
+#     - testcicd
+#   script:
+#     - npm config set registry https://registry.npm.taobao.org
+#     - npm install
 
 
 job_deploy:
@@ -24,6 +24,8 @@ job_deploy:
   image: docker
   tags:
     - testcicd
+  only:
+    - release
   script:
     - docker build -t todolist-sever .
     - if [ $(docker ps -aq --filter name=todolist-nodejs) ]; then docker rm -f todolist-nodejs;fi
