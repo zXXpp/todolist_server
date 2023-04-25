@@ -14,7 +14,7 @@ module.exports = {
      * jwt配置
      */
     jwtConfig: {
-        jwtSecretKey: 'nihao_woshini_baba',
+        jwtSecretKey: 'zxp_todolist',
         jwtExpiresIn: '10h',
         jwtAlgorithm: 'HS256'
     }
