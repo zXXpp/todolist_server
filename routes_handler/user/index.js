@@ -60,10 +60,13 @@ exports.login = async (req, res) => {
         let userInfo = req.body
         const result = await UserModel.findOne({ email: userInfo.email })
         if (!result) return res.res_error('未注册账号')
+        if(result.status === 0){
+            return res.res_error('用户已被停用')
+        }
         if (!bcrypt.compareSync(userInfo.password, result.password)) return res.res_error('密码错误')
         //剔除部分属性
-        const { nickName, email, pic, _id } = result
-        const user = { nickName, email, pic, _id }
+        const { nickName, email, pic, _id:userId } = result
+        const user = { nickName, email, pic, userId }
         //生产token
         const token = `Bearer ${jwt.sign(user, jwtSecretKey, { expiresIn: jwtExpiresIn, algorithm: jwtAlgorithm })}`
         res.res_con({ token })

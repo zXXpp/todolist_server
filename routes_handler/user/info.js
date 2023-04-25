@@ -6,8 +6,7 @@ const UserModel = require('../../model/UserModel')
 exports.getInfo = async (req, res) => {
     //响应
     try {
-        console.log(req.auth);
-        const results = await UserModel.findById(req.auth._id)
+        const results = await UserModel.findById(req.auth.userId)
         const {
             nickName, email, sex, pic, phoneNumber
         } = results
@@ -21,7 +20,7 @@ exports.getInfo = async (req, res) => {
 //更新用户信息
 exports.updateInfo = async (req, res) => {
     try {
-        const results = await UserModel.findByIdAndUpdate(req.auth._id, { ...req.body, updateTime: new Date() })
+        const results = await UserModel.findByIdAndUpdate(req.auth.userId, { ...req.body, updateTime: new Date() })
         if(results){
             res.res_con()
         }else{

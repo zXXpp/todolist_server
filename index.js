@@ -10,8 +10,17 @@ const joi = require('joi')
 
 
 
+
+
+
+
 //app
 const app = express()
+// 使用swagger API 文档
+const swaggerInstall = require('./utils/swagger')
+swaggerInstall(app)
+
+
 
 //官方中间件
 app.use(cors())//跨域
@@ -20,6 +29,7 @@ app.use(express.urlencoded({ extended: true }))//body参数解析
 
 //自定义中间件
 app.use(require('./middleware/response')())
+
 
 
 
