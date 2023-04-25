@@ -10,6 +10,7 @@ const todo_schema = require('../schema/todo_schema')
 
 router.post('/getTodoList', expressJoi(todo_schema.gettodolist_schema), todo.getTodoList)
 router.post('/createTodo', expressJoi(todo_schema.create_schema), todo.create)
+router.post('/updateTodo', expressJoi(todo_schema.update_schema), todo.update)
 
 //暴露
 module.exports = router

@@ -11,8 +11,13 @@ let TodoSchema = new mongoose.Schema({
     status: {
         type: Number,
         required: true,
-        enum: [0, 1, 2],//1是未完成,0是删除,2是已完成
+        enum: [1, 2],//1是未完成,0是删除,2是已完成
         default: 1
+    },
+    delete: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     createTime: {
         type: Date,
